@@ -10,15 +10,16 @@ public class Voter {
 	private Long id;
 	
 	private String name;
+	private String email;
 	private String nif;
-	private String cp;
+	private int code;
 	
 	public Voter() {}
 	
-	public Voter (String name, String cp){
+	public Voter (String name, int code){
 		
 		this.name = name;
-		this.cp = cp;
+		this.code = code;
 	}
 	
 	
@@ -30,12 +31,12 @@ public class Voter {
 		this.name = name;
 	}
 
-	public String getCp() {
-		return cp;
+	public int getCode() {
+		return code;
 	}
 
-	public void setCp(String cp) {
-		this.cp = cp;
+	public void setCp(int code) {
+		this.code = code;
 	}
 
 	public String getNif() {
@@ -44,7 +45,7 @@ public class Voter {
 
 	@Override
 	public String toString() {
-		return "Voter [name=" + name + ", nif=" + nif + ", cp=" + cp + "]";
+		return "Voter [name=" + name + ", nif=" + nif + ", ccode=" + code + "]";
 	}
 
 	

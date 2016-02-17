@@ -35,7 +35,7 @@ public class AppTest
    
     public void testApp()
     {
-        Voter voter = new Voter("Ricardo", "1234");
+        Voter voter = new Voter("Ricardo", 1234);
         
         assertEquals("Ricardo", voter.getName());
     }

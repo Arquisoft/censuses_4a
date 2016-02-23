@@ -1,7 +1,7 @@
-package es.uniovi.asw.generators.impl;
+package es.uniovi.asw.parser.impl;
 
-import es.uniovi.asw.generators.Generator;
 import es.uniovi.asw.model.Voter;
+import es.uniovi.asw.parser.Generator;
 
 public abstract class LetterGenerator implements Generator {
 

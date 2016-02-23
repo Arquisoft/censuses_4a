@@ -1,4 +1,4 @@
-package es.uniovi.asw.generators;
+package es.uniovi.asw.parser;
 
 import es.uniovi.asw.model.Voter;
 

@@ -1,4 +1,4 @@
-package es.uniovi.asw.generators.impl;
+package es.uniovi.asw.parser.impl;
 
 import java.io.File;
 import java.io.FileWriter;

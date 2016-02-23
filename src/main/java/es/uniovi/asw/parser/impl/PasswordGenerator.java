@@ -1,9 +1,9 @@
-package es.uniovi.asw.generators.impl;
+package es.uniovi.asw.parser.impl;
 
 import java.util.Random;
 
-import es.uniovi.asw.generators.Generator;
 import es.uniovi.asw.model.Voter;
+import es.uniovi.asw.parser.Generator;
 
 /*
  * @author Ricardo Suárez Rodríguez

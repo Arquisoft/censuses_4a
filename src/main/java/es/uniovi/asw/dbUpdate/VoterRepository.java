@@ -1,10 +1,10 @@
-package asw.censuses_4a.persistence;
+package es.uniovi.asw.dbUpdate;
 
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import asw.censuses_4a.voters.Voter;
+import es.uniovi.asw.model.Voter;
 
 public interface VoterRepository extends CrudRepository<Voter, Long>{
 	

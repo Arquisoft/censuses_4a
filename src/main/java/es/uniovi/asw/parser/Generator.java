@@ -1,6 +1,6 @@
 package es.uniovi.asw.parser;
 
-import es.uniovi.asw.model.Voter;
+import es.uniovi.asw.voters.Voter;
 
 public interface Generator {
 

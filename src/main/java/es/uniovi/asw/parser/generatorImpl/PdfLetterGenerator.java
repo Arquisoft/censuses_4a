@@ -8,7 +8,7 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import es.uniovi.asw.model.Voter;
+import es.uniovi.asw.voters.Voter;
 
 /**
  * @author Ricardo Suárez Rodríguez

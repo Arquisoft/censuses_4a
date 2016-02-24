@@ -2,87 +2,93 @@ package es.uniovi.asw.parser.readerImpl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import es.uniovi.asw.model.Voter;
 import es.uniovi.asw.parser.Parser;
+import es.uniovi.asw.reportWriter.WreportP;
+import es.uniovi.asw.voters.Voter;
 
 public class XLSXParser implements Parser {
-	
-	private List<Voter> voters;
-	
+
+	private WreportP log;
+
 	public XLSXParser() {
-		voters = new ArrayList<Voter>();
+
+		log = new WreportP();
 	}
 
 	@SuppressWarnings({ "rawtypes", "resource" })
 	@Override
 	public List<Voter> loadVoters(String fileName) {
-		
-		List cellDataList = new ArrayList();
+
+		List<Voter> voters = new ArrayList<Voter>();
+
 		try {
-			FileInputStream fileInputStream = new FileInputStream(new File(fileName));
-			XSSFWorkbook workBook = new XSSFWorkbook(fileInputStream);
-			XSSFSheet hssfSheet = workBook.getSheetAt(0);
-			Iterator<Row> rowIterator = hssfSheet.rowIterator();
+
+			FileInputStream file = new FileInputStream(new File(fileName));
+
+			XSSFWorkbook listaVotantes = new XSSFWorkbook(file);
+
+			XSSFSheet hoja = listaVotantes.getSheetAt(0);
+
+			Iterator<Row> rowIterator = hoja.iterator();
+			rowIterator.next();
 			while (rowIterator.hasNext()) {
-				XSSFRow hssfRow = (XSSFRow) rowIterator.next();
-				Iterator<Cell> iterator = hssfRow.cellIterator();
-				List cellTempList = new ArrayList();
-				while (iterator.hasNext()) {
-					XSSFCell hssfCell = (XSSFCell) iterator.next();
-					cellTempList.add(hssfCell);
-				}
-				cellDataList.add(cellTempList);
+				Row row = rowIterator.next();
+
+				Iterator<Cell> columns = row.cellIterator();
+				addVoterToCensus(voters, fileName, columns); // Cargamos los
+																// datos del
+																// votante
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			listaVotantes.close();
+
+		} catch (IOException ioe) {
+
+			log.report("Error al leer el fichero");
+
 		}
-		//Leer(cellDataList);
-		addToCensus(cellDataList);
-		ImprimirCenso();
-		
 		return voters;
 	}
-	
-//	private void Leer(List cellDataList){
-//		for (int i = 0; i < cellDataList.size(); i++) {
-//			List cellTempList = (List) cellDataList.get(i);
-//			for (int j = 0; j < cellTempList.size(); j++) {
-//				XSSFCell hssfCell = (XSSFCell) cellTempList.get(j);
-//				String stringCellValue = hssfCell.toString();
-//				System.out.print(stringCellValue+" ");
-//			}
-//			System.out.println();
-//		}
-//	}
-	
-	private void addToCensus(List cellDataList) {
-		for (int i = 1; i < cellDataList.size(); i++) {
-			List cellTempList = (List) cellDataList.get(i);
-			String nombre = cellTempList.get(0).toString();
-			String nif = cellTempList.get(1).toString();
-			float cp = Float.parseFloat(cellTempList.get(2).toString());
-			float mesa = Float.parseFloat(cellTempList.get(3).toString());
-			String email = cellTempList.get(4).toString();
-	
-			voters.add(new Voter(nombre, nif, (int) cp, email));
+
+	private void addVoterToCensus(List<Voter> voters, String file, Iterator<Cell> columns) {
+
+		try {
+			String name = columns.next().getStringCellValue();
+			String nif = columns.next().getStringCellValue();
+			int code = (int) columns.next().getNumericCellValue();
+			String email = columns.next().getStringCellValue();
+
+			Voter voter = new Voter(name, nif, code, email);
+
+			voters.add(voter);
+
+		} catch (IllegalStateException | NumberFormatException ne) {
+
+			log.report("Formato incorrecto");
 		}
+
 	}
-	
-	private void ImprimirCenso() {
-		for(Voter voter : voters) {
-			System.out.println(voter.toString());
-		}
-	}
+
+	// private void Leer(List cellDataList){
+	// for (int i = 0; i < cellDataList.size(); i++) {
+	// List cellTempList = (List) cellDataList.get(i);
+	// for (int j = 0; j < cellTempList.size(); j++) {
+	// XSSFCell hssfCell = (XSSFCell) cellTempList.get(j);
+	// String stringCellValue = hssfCell.toString();
+	// System.out.print(stringCellValue+" ");
+	// }
+	// System.out.println();
+	// }
+	// }
 
 }

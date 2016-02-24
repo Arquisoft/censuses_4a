@@ -3,7 +3,7 @@ package es.uniovi.asw.parser.generatorImpl;
 import java.io.File;
 import java.io.FileWriter;
 
-import es.uniovi.asw.model.Voter;
+import es.uniovi.asw.voters.Voter;
 
 public class TxtLetterGenerator extends LetterGenerator {
 

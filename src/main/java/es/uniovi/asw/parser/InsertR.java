@@ -3,8 +3,8 @@ package es.uniovi.asw.parser;
 import java.util.List;
 
 import es.uniovi.asw.dbUpdate.Insert;
-import es.uniovi.asw.model.Voter;
 import es.uniovi.asw.parser.generatorImpl.PasswordGenerator;
+import es.uniovi.asw.voters.Voter;
 
 public class InsertR implements Insert {
 

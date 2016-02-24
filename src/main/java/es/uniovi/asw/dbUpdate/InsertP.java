@@ -6,14 +6,16 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 
-import es.uniovi.asw.model.Voter;
 import es.uniovi.asw.parser.generatorImpl.LetterGenerator;
 import es.uniovi.asw.parser.generatorImpl.PdfLetterGenerator;
 import es.uniovi.asw.parser.generatorImpl.TxtLetterGenerator;
+import es.uniovi.asw.voters.Voter;
 
 @SpringBootApplication
+@EntityScan("es.uniovi.asw.voters")
 public class InsertP implements Insert {
 
 	private List<Voter> voters;
@@ -37,9 +39,9 @@ public class InsertP implements Insert {
 		}
 
 	}
-	
-public static void main(String[] args) throws ParseException {
-		
+
+	public static void main(String[] args) throws ParseException {
+
 		SpringApplication.run(InsertP.class, args);
 	}
 

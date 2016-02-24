@@ -1,4 +1,4 @@
-package es.uniovi.asw.model;
+package es.uniovi.asw.voters;
 
 import javax.persistence.*;
 
@@ -17,7 +17,8 @@ public class Voter {
 	
 	protected Voter() {}
 	
-	public Voter (String name, String nif, int code, String email){
+	public Voter (String name, String nif, int code, String email)
+	{
 		
 		this.name = name;
 		this.nif = nif;

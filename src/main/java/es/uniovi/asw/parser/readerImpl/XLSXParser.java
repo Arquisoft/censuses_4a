@@ -68,7 +68,7 @@ public class XLSXParser implements Parser {
 			int code = (int) columns.next().getNumericCellValue();
 			String email = columns.next().getStringCellValue();
 
-			Voter voter = new Voter(name, nif, code, email);
+			Voter voter = new Voter(name, nif, code, email, null);
 
 			voters.add(voter);
 

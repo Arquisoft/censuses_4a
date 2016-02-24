@@ -20,7 +20,7 @@ public class TestApp {
 
 	@Test
 	public void evalAdd() {
-		Voter voter = new Voter("Ricardo", "1234", 12, "asf");
+		Voter voter = new Voter("Ricardo", "1234", 12, "asf", "123453243");
 		assertEquals(voter.getName(), "Ricardo");
 	}
 

@@ -17,13 +17,14 @@ public class Voter {
 	
 	protected Voter() {}
 	
-	public Voter (String name, String nif, int code, String email)
+	public Voter (String name, String nif, int code, String email, String password)
 	{
 		
 		this.name = name;
 		this.nif = nif;
 		this.code = code;
 		this.email = email;
+		this.password = password;
 	}
 	
 	

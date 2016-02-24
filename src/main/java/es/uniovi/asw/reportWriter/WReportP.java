@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Date;
 
-public class WReportP implements WriteReport{
+public class WreportP implements WriteReport{
 
 	@Override
 	public void report(String data) {

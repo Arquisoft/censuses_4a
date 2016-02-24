@@ -1,4 +1,4 @@
-package es.uniovi.asw.parser.impl;
+package es.uniovi.asw.parser.generatorImpl;
 
 import java.util.Random;
 

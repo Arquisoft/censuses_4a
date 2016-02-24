@@ -26,5 +26,6 @@ public class PasswordGenerator implements Generator {
 		
 		voter.setPassword(pass);
 	}
+	
 
 }

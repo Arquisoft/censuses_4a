@@ -1,5 +1,6 @@
 package es.uniovi.asw.parser.readerImpl;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,7 +30,7 @@ public class XLSXParser implements Parser {
 		
 		List cellDataList = new ArrayList();
 		try {
-			FileInputStream fileInputStream = new FileInputStream( fileName);
+			FileInputStream fileInputStream = new FileInputStream(new File(fileName));
 			XSSFWorkbook workBook = new XSSFWorkbook(fileInputStream);
 			XSSFSheet hssfSheet = workBook.getSheetAt(0);
 			Iterator<Row> rowIterator = hssfSheet.rowIterator();

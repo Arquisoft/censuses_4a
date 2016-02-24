@@ -41,10 +41,10 @@ public class LoadUsers {
 		return censo;
 	}
 
-	public LoadUsers(File fileName) throws ParseException {
+	public LoadUsers(String fileName) throws ParseException {
 		List cellDataList = new ArrayList();
 		try {
-			FileInputStream fileInputStream = new FileInputStream( fileName);
+			FileInputStream fileInputStream = new FileInputStream( new File(fileName));
 			XSSFWorkbook workBook = new XSSFWorkbook(fileInputStream);
 			XSSFSheet hssfSheet = workBook.getSheetAt(0);
 			Iterator<Row> rowIterator = hssfSheet.rowIterator();

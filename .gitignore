@@ -1,5 +1,7 @@
-Letters/
-Censuses/
+Letters/*
+Censuses/*
+log.txt
+log.txt.lck
 *.class
 
 # Package Files #

@@ -1,13 +1,11 @@
-package es.uniovi.asw.dbUpdate;
-
-import java.util.List;
+package es.uniovi.asw.dbupdate.interfaces;
 
 import org.springframework.data.repository.CrudRepository;
 
-import es.uniovi.asw.voters.Voter;
+import es.uniovi.asw.dbupdate.model.Voter;
 
 public interface VoterRepository extends CrudRepository<Voter, Long>{
 	
-	List<Voter> findByNif(String nif);
+	Voter findByNif(String nif);
 
 }

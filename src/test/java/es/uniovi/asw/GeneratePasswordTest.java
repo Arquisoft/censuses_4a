@@ -8,34 +8,33 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.uniovi.asw.parser.Generator;
-import es.uniovi.asw.parser.generatorImpl.PasswordGenerator;
-import es.uniovi.asw.parser.readerImpl.XLSXParser;
-import es.uniovi.asw.voters.Voter;
+import es.uniovi.asw.dbupdate.model.Voter;
+import es.uniovi.asw.parser.interfaces.ReadCensus;
+import es.uniovi.asw.parser.parsers.XLSXParser;
+import es.uniovi.asw.util.PasswordGenerator;
 
 public class GeneratePasswordTest {
 	
-	private XLSXParser loader;
+	private ReadCensus parser;
 	private List<Voter> voters;
-	private Generator g;
 	
 	@Before
 	public void setUp() {
-		
-		 g = new PasswordGenerator();
-		 loader = new XLSXParser();
-		 voters = loader.loadVoters("src/test/resources/test.xlsx");
+		 parser = new XLSXParser();
+		 voters = parser.read("censo.xlsx");
 	}
 
 	@Test
 	public void assertPasswordGenerated() {
-		
 		Voter voter = voters.get(2);
-		g.generate(voter);
+		String pass = PasswordGenerator.generate(8);
+		
+		voters.get(2).setPassword(pass);
+		
 		assertNotEquals(null, voter.getPassword());
-		System.out.println(voter.getPassword());
+		assertEquals(8, voters.get(2).getPassword().length());
 		
-		
+		assertEquals(8, pass.length());
 	}
 	
 	

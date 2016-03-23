@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import es.uniovi.asw.parser.readerImpl.XLSXParser;
-import es.uniovi.asw.voters.Voter;
+import es.uniovi.asw.dbupdate.model.Voter;
+import es.uniovi.asw.parser.parsers.XLSXParser;
 
 public class LoadDataTest {
 	
@@ -18,38 +18,32 @@ public class LoadDataTest {
 	
 	@Before
 	public void setUp() {
-		
 		 loader = new XLSXParser();
-		 voters = loader.loadVoters("src/test/resources/test.xlsx");
+		 voters = loader.read("censo.xlsx");
 	}
 
 	@Test
 	public void assertVoter1Data() {
-		
-		Voter voter = voters.get(2);
-		assertEquals(voter.getName(), "Ana Torres Pardo");
-		assertNotEquals(voter.getEmail(), "atpardo@gmail.com");
-		assertEquals(voter.getEmail(), "anatp@gmail.com");
+		Voter voter = voters.get(0);
+		assertEquals(voter.getName(), "Perico Delgado Gutiérrez");
+		assertNotEquals(voter.getEmail(), "perico2@servidor.com");
+		assertEquals(voter.getEmail(), "perico@servidor.com");
 	}
 	
 	@Test
 	public void assertVoter2Data() {
-		
 		Voter voter = voters.get(1);
-		assertEquals(voter.getName(), "Luis López Fernando");
-		
-		assertNotEquals(voter.getEmail(), "llfernando@gmail.com");
-		assertEquals(voter.getEmail(), "luislf@gmail.com");
+		assertEquals(voter.getName(), "Juan Álvarez González");
+		assertNotEquals(voter.getEmail(), "juan@servidor2.com");
+		assertEquals(voter.getEmail(), "juan@servidor.com");
 	}
 	
 	@Test
 	public void assertVoter3Data() {
-		
-		Voter voter = voters.get(0);
-		assertEquals(voter.getName(), "Juan Torres Pardo");
-		
-		assertNotEquals(voter.getEmail(), "jtpardo@gmail.com");
-		assertEquals(voter.getEmail(), "juantp@gmail.com");
+		Voter voter = voters.get(2);
+		assertEquals(voter.getName(), "Manuel Fernández Álvarez");
+		assertNotEquals(voter.getEmail(), "manuel@servidor.net");
+		assertEquals(voter.getEmail(), "manuel@servidor.com");
 	}
 
 }

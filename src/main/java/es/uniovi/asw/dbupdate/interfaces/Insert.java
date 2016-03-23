@@ -1,8 +1,8 @@
-package es.uniovi.asw.dbUpdate;
+package es.uniovi.asw.dbupdate.interfaces;
 
 import java.util.List;
 
-import es.uniovi.asw.voters.Voter;
+import es.uniovi.asw.dbupdate.model.Voter;
 
 public interface Insert {
 	

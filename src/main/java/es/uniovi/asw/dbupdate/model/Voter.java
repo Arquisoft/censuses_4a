@@ -1,4 +1,4 @@
-package es.uniovi.asw.voters;
+package es.uniovi.asw.dbupdate.model;
 
 import javax.persistence.*;
 
@@ -17,7 +17,7 @@ public class Voter {
 	
 	protected Voter() {}
 	
-	public Voter (String name, String nif, int code, String email, String password)
+	public Voter (String name, String email, String nif, int code, String password)
 	{
 		
 		this.name = name;
@@ -26,7 +26,6 @@ public class Voter {
 		this.email = email;
 		this.password = password;
 	}
-	
 	
 	public String getName() {
 		return name;
@@ -63,10 +62,6 @@ public class Voter {
 	public String toString() {
 		return "Voter [name=" + name + ", nif=" + nif + ", ccode=" + code + "]";
 	}
-
-	
-
-	
 	
 
 }

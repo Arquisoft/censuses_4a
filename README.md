@@ -1,4 +1,4 @@
-# Repositorio de ASW del Equipo 4B1
+# Repositorio de ASW del Equipo 4A1
 
 Lector de Censos de Votantes
 

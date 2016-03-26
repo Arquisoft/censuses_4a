@@ -1,46 +1,31 @@
-/**
- * 
- */
 package es.uniovi.asw.parser.writers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.Map;
 
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 
-import es.uniovi.asw.dbupdate.model.Voter;
-import es.uniovi.asw.parser.interfaces.LetterWriter;
-import es.uniovi.asw.parser.ports.WreportR;
-import es.uniovi.asw.reportwriter.ReportWriter;
+import es.uniovi.asw.util.ReadCensusException;
 
 /**
- * @author ivan
- *
+ * @author Ricardo Suárez Rodríguez
+ * @author Iván Modroño Álvarez
  */
 public class WordWriter implements LetterWriter {
-	
-	private WreportR wreportR;
-	
-	public WordWriter() {
-		this.wreportR = new WreportR(new ReportWriter());
-	}
 
-
-	/* (non-Javadoc)
-	 * @see es.uniovi.asw.parser.interfaces.LetterWriter#write(es.uniovi.asw.dbupdate.model.Voter)
-	 */
 	@Override
-	public void write(Voter voter) {
+	public void write(Map<String, Object> voter) throws ReadCensusException {
 		
 		XWPFDocument document = new XWPFDocument();
 		FileOutputStream out = null;
 		
 		try {
 			
-			out = new FileOutputStream(new File("Letters/" + voter.getNif() + ".docx"));
+			out = new FileOutputStream(new File("Letters/" + voter.get("nif") + ".docx"));
 			
 			XWPFParagraph paragraph = document.createParagraph();
 			XWPFRun run = paragraph.createRun();
@@ -48,51 +33,35 @@ public class WordWriter implements LetterWriter {
 			run.setFontFamily("Tahoma");
 			run.setFontSize(12);
 			
-			generateContent(voter, run);
+			run.setText("Don/Doña " + voter.get("name") + " ha sido añadido/a al censo.");
+			run.addBreak();
+			run.addBreak();
+			run.setText("Datos de acceso:");
+			run.addBreak();
+			run.setText("Usuario: " + voter.get("email"));
+			run.addBreak();
+			run.setText("Password: " + voter.get("password"));
+			run.addBreak();
+			run.addBreak();
+			run.setText("Su colegio electoral es el " + voter.get("code"));
+			
 			document.write(out);
 
 		} 
 		
 		catch (FileNotFoundException e) {
-			wreportR.log("ERROR WordWriter: No se puede crear el archivo que contiene"
-					+ " la carta Word del usuario " + voter.getNif()
-				);
+			throw new ReadCensusException("[ERROR] [WordWriter] No se puede crear el archivo que contiene la carta Word del usuario " + voter.get("nif"));
 		} 
 		
 		catch (Exception e) {
-			wreportR.log("ERROR PDFWriter - Error al crear la carta PDF para " + 
-					voter.getNif() + ": " + e.getMessage()
-				);
+			throw new ReadCensusException("[ERROR] [WordWriter] Error inesperado al crear la carta Word para " + voter.get("nif") + ": " + e.getMessage());
 		}
 		
 		finally {
-			
-			try {
-				if (out != null) out.close();
-				if (document != null) document.close();
-			} 
-			
-			catch (Exception e) {
-				wreportR.log("ERROR WordWriter - Error cerrar I/O (" + 
-						voter.getNif() + "): " + e.getMessage()
-					);
-			}
+			try { if (out != null) out.close(); if (document != null) document.close(); } 			
+			catch (Exception e) { throw new ReadCensusException("[ERROR] [WordWriter] I/O error (" + voter.get("nif") + "): " + e.getMessage()); }
 		}
 
-	}
-
-	private void generateContent(Voter voter, XWPFRun run) {
-		run.setText("Don/Doña " + voter.getName() + " ha sido añadido/a al censo.");
-		run.addBreak();
-		run.addBreak();
-		run.setText("Datos de acceso:");
-		run.addBreak();
-		run.setText("Usuario: " + voter.getEmail());
-		run.addBreak();
-		run.setText("Password: " + voter.getPassword());
-		run.addBreak();
-		run.addBreak();
-		run.setText("Su colegio electoral es el " + voter.getCode());
 	}
 
 }

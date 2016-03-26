@@ -3,84 +3,76 @@ package es.uniovi.asw.parser.parsers;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import es.uniovi.asw.dbupdate.model.Voter;
-import es.uniovi.asw.parser.interfaces.ReadCensus;
-import es.uniovi.asw.parser.ports.WreportR;
-import es.uniovi.asw.reportwriter.ReportWriter;
+import es.uniovi.asw.util.PasswordGenerator;
+import es.uniovi.asw.util.ReadCensusException;
 
-public class TXTParser implements ReadCensus {
+public class TXTParser extends AbstractParser {
 
-	private WreportR wreportR;
-	
-	public TXTParser() {
-		this.wreportR = new WreportR(new ReportWriter());
+	public TXTParser(String filePath) {
+		super(filePath);
 	}
 
 	@Override
-	public List<Voter> read(String fileName) {
-		
-		List<Voter> voters = new ArrayList<Voter>();
+	public List<Map<String, Object>> parse() throws ReadCensusException {
 		BufferedReader br = null;
+		String fileName = Paths.get(filePath).getFileName().toString();
 		
 		String line = "";
 		String splitBy = "\t";
+		int row = 0;
 
 		try {
 
-			br = new BufferedReader(new FileReader("Censuses/" + fileName));
+			br = new BufferedReader(new FileReader(filePath));
 			
 			while ((line = br.readLine()) != null) {
-				String[] voter = line.split(splitBy);
-				addVoter(voters, voter);
+				String[] voterInfo = line.split(splitBy);
+				row++;
+				
+				try {
+					voter = new HashMap<String, Object>();
+					voter.put("name", voterInfo[0]);
+					voter.put("email", voterInfo[1]);
+					voter.put("nif", voterInfo[2]);
+					voter.put("code", voterInfo[3]);
+					voter.put("password", PasswordGenerator.generate(8));
+					voter.put("file", fileName);
+					voter.put("line", row);
+				}
+				
+				catch(Exception e) {
+					if (br != null) br.close();
+					throw new ReadCensusException("[ERROR] [" + fileName + ":" + row + "] El usuario no tiene el formato correcto");
+				}
+				
+				voters.add(voter);
 			}
 
 		} 
 		
 		catch (FileNotFoundException e) {
-			wreportR.log("ERROR - El fichero " + fileName + " no existe");
+			throw new ReadCensusException("[ERROR] [" + fileName + "] El fichero no existe");
 		} 
 		
 		catch (Exception e) {
-			wreportR.log("Error al leer el fichero TXT: " + e.getMessage());
+			throw new ReadCensusException("[ERROR] [" + fileName + ":" + row + "] Fallo inesperado al leer el fichero: " + e.getMessage());
 		} 
 		
 		finally {
-			
-			try {
-				if (br != null) 
-					br.close();
-			} 
-			
-			catch (Exception e) {
-				wreportR.log("ERROR TXTParser - Error cerrar I/O: " + e.getMessage());
-			}
+			try { if (br != null) br.close(); } 
+			catch (Exception e) { throw new ReadCensusException("[ERROR] [" + fileName + ":" + row + "] I/O Error: " + e.getMessage()); }
+		}
+		
+		if (voters.isEmpty()) {
+			throw new ReadCensusException("[AVISO] [" + fileName + "] El censo está vacío");
 		}
 		
 		return voters;
-	}
-	
-	private void addVoter(List<Voter> voters, String[] voter) {
-
-		//// OJO DETECTAR ERRORES
-		
-		try {
-			
-			String name = voter[0];
-			String email = voter[1];
-			String nif = voter[2];
-			int code = Integer.parseInt(voter[3]);
-
-			Voter v = new Voter(name, email, nif, code, null);
-
-			voters.add(v);
-
-		} catch (Exception e) {
-			wreportR.log("ERROR TXTParser: el votante no tiene el formato correcto");
-		}
-
 	}
 
 }

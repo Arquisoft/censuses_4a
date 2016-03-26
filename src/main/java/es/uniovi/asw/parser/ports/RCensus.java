@@ -1,50 +1,30 @@
 package es.uniovi.asw.parser.ports;
 
-import java.util.List;
-
-import es.uniovi.asw.dbupdate.model.Voter;
-import es.uniovi.asw.parser.interfaces.ReadCensus;
 import es.uniovi.asw.parser.parsers.CSVParser;
+import es.uniovi.asw.parser.parsers.CensusParser;
 import es.uniovi.asw.parser.parsers.TXTParser;
 import es.uniovi.asw.parser.parsers.XLSXParser;
-import es.uniovi.asw.reportwriter.ReportWriter;
+import es.uniovi.asw.util.ReadCensusException;
 
-public class RCensus implements ReadCensus {
+public class RCensus {
 
-	private WreportR wreportR;
-	
-	public RCensus() {
-		this.wreportR = new WreportR(new ReportWriter());
-	}
+	public static CensusParser create(String fileName) throws ReadCensusException {
 
-	@Override
-	public List<Voter> read(String fileName) {
+		CensusParser parser;
 		
-		ReadCensus parser;
-		List<Voter> voters = null;
+		if (fileName.endsWith(".xlsx"))
+			parser = new XLSXParser(fileName);
 		
-		if (fileName.endsWith("xlsx")) {
-			parser = new XLSXParser();
-			voters = parser.read(fileName);
-		}
+		else if (fileName.endsWith(".csv"))
+			parser = new CSVParser(fileName);
 		
-		else if (fileName.endsWith("csv")) {
-			parser = new CSVParser();
-			voters = parser.read(fileName);
-		}
-		
-		else if (fileName.endsWith("txt")) {
-			parser = new TXTParser();
-			voters = parser.read(fileName);
+		else if (fileName.endsWith(".txt"))
+			parser = new TXTParser(fileName);
 
-		} else {
-			wreportR.log(
-					"ERROR - El formato del archivo que contiene el censo (" + 
-							fileName + ") no está soportado"
-					);
-		}
+		else
+			throw new ReadCensusException("ERROR - El formato del archivo que contiene el censo (" + fileName + ") no está soportado");
 		
-		return voters;
+		return parser;
 	}
 	
 }

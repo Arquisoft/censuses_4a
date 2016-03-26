@@ -5,8 +5,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import es.uniovi.asw.dbupdate.DBUpdate;
-import es.uniovi.asw.dbupdate.interfaces.VoterRepository;
+import es.uniovi.asw.dbupdate.Insert;
+import es.uniovi.asw.dbupdate.impl.InsertImpl;
 import es.uniovi.asw.util.Console;
 
 /**
@@ -23,9 +23,9 @@ public class LoadVoters {
 	}
 	
 	@Bean
-	public CommandLineRunner console(VoterRepository voterRepository) {
+	public CommandLineRunner console(Insert voterRepository) {
 		return (args) -> {
-			DBUpdate.setVoterRepository(voterRepository);
+			InsertImpl.setVoterRepository(voterRepository);
 			Console.start(args);
 		};
 	

@@ -4,46 +4,58 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import es.uniovi.asw.dbupdate.model.Voter;
+import es.uniovi.asw.parser.parsers.CensusParser;
 import es.uniovi.asw.parser.parsers.XLSXParser;
+import es.uniovi.asw.util.ReadCensusException;
 
 public class LoadDataTest {
 	
-	private XLSXParser loader;
-	private List<Voter> voters;
+	private static final Logger logger = Logger.getLogger(LoadDataTest.class.getName());
+	
+	private CensusParser parser;
+	private List<Map<String, Object>> voters;
 	
 	@Before
 	public void setUp() {
-		 loader = new XLSXParser();
-		 voters = loader.read("censo.xlsx");
+		
+		try {
+			parser = new XLSXParser("src/test/resources/censo.xlsx");
+			voters = parser.parse();
+		} 
+		
+		catch (ReadCensusException e) {
+			logger.info(e.getMessage());
+		}
 	}
 
 	@Test
 	public void assertVoter1Data() {
-		Voter voter = voters.get(0);
-		assertEquals(voter.getName(), "Perico Delgado Gutiérrez");
-		assertNotEquals(voter.getEmail(), "perico2@servidor.com");
-		assertEquals(voter.getEmail(), "perico@servidor.com");
+		Map<String, Object> voter = voters.get(0);
+		assertEquals("Perico Delgado Gutiérrez", voter.get("name"));
+		assertNotEquals("perico2@servidor.com", voter.get("email"));
+		assertEquals("perico@servidor.com", voter.get("email"));
 	}
 	
 	@Test
 	public void assertVoter2Data() {
-		Voter voter = voters.get(1);
-		assertEquals(voter.getName(), "Juan Álvarez González");
-		assertNotEquals(voter.getEmail(), "juan@servidor2.com");
-		assertEquals(voter.getEmail(), "juan@servidor.com");
+		Map<String, Object> voter = voters.get(1);
+		assertEquals("Juan Álvarez González", voter.get("name"));
+		assertNotEquals("juan@servidor2.com", voter.get("email"));
+		assertEquals("juan@servidor.com", voter.get("email"));
 	}
 	
 	@Test
 	public void assertVoter3Data() {
-		Voter voter = voters.get(2);
-		assertEquals(voter.getName(), "Manuel Fernández Álvarez");
-		assertNotEquals(voter.getEmail(), "manuel@servidor.net");
-		assertEquals(voter.getEmail(), "manuel@servidor.com");
+		Map<String, Object> voter = voters.get(2);
+		assertEquals("Manuel Fernández Álvarez", voter.get("name"));
+		assertNotEquals("manuel@servidor.net", voter.get("email"));
+		assertEquals("manuel@servidor.com", voter.get("email"));
 	}
 
 }

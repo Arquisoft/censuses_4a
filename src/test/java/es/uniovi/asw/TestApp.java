@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.test.context.ActiveProfiles;
 
-import es.uniovi.asw.dbupdate.model.Voter;
+import es.uniovi.asw.model.Voter;
 
 @SpringBootApplication
 
@@ -20,8 +20,8 @@ public class TestApp {
 
 	@Test
 	public void evalAdd() {
-		Voter voter = new Voter("Ricardo", "1234", "12345324A", 12, "aAbBcCdD");
-		assertEquals(voter.getName(), "Ricardo");
+		Voter voter = new Voter("Manolo", "1234", "12345324A", 12, "aAbBcCdD");
+		assertEquals(voter.getName(), "Manolo");
 	}
 
 }

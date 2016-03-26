@@ -4,39 +4,41 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import es.uniovi.asw.dbupdate.model.Voter;
-import es.uniovi.asw.parser.interfaces.ReadCensus;
+import es.uniovi.asw.parser.parsers.CensusParser;
 import es.uniovi.asw.parser.parsers.XLSXParser;
-import es.uniovi.asw.util.PasswordGenerator;
+import es.uniovi.asw.util.ReadCensusException;
 
 public class GeneratePasswordTest {
 	
-	private ReadCensus parser;
-	private List<Voter> voters;
+	private static final Logger logger = Logger.getLogger(GeneratePasswordTest.class.getName());
+
+	private CensusParser parser;
+	private List<Map<String, Object>> voters;
 	
 	@Before
 	public void setUp() {
-		 parser = new XLSXParser();
-		 voters = parser.read("censo.xlsx");
+		
+		try {
+			parser = new XLSXParser("src/test/resources/censo.xlsx");
+			voters = parser.parse();
+		}
+		
+		catch (ReadCensusException e) {
+			logger.info(e.getMessage());
+		}
 	}
 
 	@Test
 	public void assertPasswordGenerated() {
-		Voter voter = voters.get(2);
-		String pass = PasswordGenerator.generate(8);
-		
-		voters.get(2).setPassword(pass);
-		
-		assertNotEquals(null, voter.getPassword());
-		assertEquals(8, voters.get(2).getPassword().length());
-		
-		assertEquals(8, pass.length());
+		Map<String, Object> voter = voters.get(0);
+		assertNotEquals(null, voter.get("password"));
+		assertEquals(8, voter.get("password").toString().length());
 	}
 	
-	
-
 }

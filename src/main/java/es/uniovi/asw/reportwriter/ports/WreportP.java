@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class WreportP {
 	
-	public String addDateTime(String msg) {
+	public static String addDateTime(String msg) {
 		
 		StringBuilder sb = new StringBuilder();
 		

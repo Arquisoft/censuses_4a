@@ -6,6 +6,7 @@ Lector de Censos de Votantes
 
 [![Build Status](https://travis-ci.org/Arquisoft/censuses_4a.svg?branch=master)](https://travis-ci.org/Arquisoft/censuses_4a)
 [![codecov.io](https://codecov.io/github/Arquisoft/censuses_4a/coverage.svg?branch=master)](https://codecov.io/github/Arquisoft/censuses_4a?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/06cfbbb2ea444a34bab27ad1b9f994de)](https://www.codacy.com/app/ivan_ma/censuses_4a)
 
 
 Autores:

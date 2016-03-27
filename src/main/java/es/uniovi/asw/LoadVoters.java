@@ -13,7 +13,6 @@ import es.uniovi.asw.util.Console;
  * Main application
  * 
  * @author Iván
- *
  */
 @SpringBootApplication
 public class LoadVoters {

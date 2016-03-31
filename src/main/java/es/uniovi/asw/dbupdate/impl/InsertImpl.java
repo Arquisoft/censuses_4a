@@ -5,12 +5,14 @@ import es.uniovi.asw.dbupdate.ports.InsertP;
 import es.uniovi.asw.dbupdate.repositories.VoterRepository;
 import es.uniovi.asw.model.Voter;
 import es.uniovi.asw.util.ReadCensusException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author ivan
  */
 public class InsertImpl implements Insert {
 
+	@Autowired
 	private static VoterRepository voterRepository;
 	
 	public static void setVoterRepository(VoterRepository vr) {

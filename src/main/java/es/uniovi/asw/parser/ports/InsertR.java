@@ -1,14 +1,37 @@
 package es.uniovi.asw.parser.ports;
 
+import java.io.IOException;
 import java.util.Map;
 
 import es.uniovi.asw.model.Voter;
 import es.uniovi.asw.util.DataValidator;
 import es.uniovi.asw.util.ReadCensusException;
+import es.uniovi.asw.util.ServicesFactory;
 
 public class InsertR {
 
-	public static Voter verify(Map<String, Object> voter) throws ReadCensusException {
+	public boolean insertVoter(Map<String, Object> voterData) throws IOException {
+
+		try {
+
+			Voter voter = verify(voterData);
+			ServicesFactory.getDBUpdateService().insertVoter(voter);
+
+		}
+
+		catch (ReadCensusException e) {
+			logMessage(e.getMessage());
+			return false;
+		}
+
+		return true;
+	}
+
+	public void logMessage(String message) throws IOException {
+		ServicesFactory.getDBUpdateService().logMessage(message);
+	}
+
+	private Voter verify(Map<String, Object> voter) throws ReadCensusException {
 		
 		if (voter.get("nif") == null || !DataValidator.isNifValid(voter.get("nif").toString()))
 			throw new ReadCensusException("[ERROR] [" + voter.get("file") + ":" + voter.get("line") + "] El NIF del usuario no tiene el formato correcto");

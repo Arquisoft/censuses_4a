@@ -5,7 +5,7 @@ import java.util.List;
 
 import es.uniovi.asw.dbupdate.ports.InsertP;
 import es.uniovi.asw.parser.ReadCensus;
-import es.uniovi.asw.parser.impl.ReadCensusImpl;
+import es.uniovi.asw.parser.ports.RCensus;
 import es.uniovi.asw.reportwriter.WriteReport;
 import es.uniovi.asw.reportwriter.ports.WreportP;
 
@@ -15,7 +15,7 @@ import es.uniovi.asw.reportwriter.ports.WreportP;
 public class ServicesFactory {
 	
 	public static ReadCensus getParserService(List<String> fileNames, List<String> formats) {
-		return new ReadCensusImpl(fileNames, formats);
+		return new RCensus(fileNames, formats);
 	}
 	
 	public static InsertP getDBUpdateService() {

@@ -1,11 +1,28 @@
 package es.uniovi.asw.dbupdate.ports;
 
+import es.uniovi.asw.dbupdate.Insert;
+import es.uniovi.asw.dbupdate.repositories.VoterRepository;
 import es.uniovi.asw.model.Voter;
 import es.uniovi.asw.util.ReadCensusException;
 
-public class InsertP {
+public class InsertP implements Insert {
 
-	public static boolean verify(Voter voter) throws ReadCensusException {
+	private static VoterRepository voterRepository;
+
+	public static void setVoterRepository(VoterRepository vr) {
+		voterRepository = vr;
+	}
+
+	public void insert(Voter voter) throws ReadCensusException {
+		if (verify(voter))
+			if (voterRepository.findByNif(voter.getNif()) == null) {
+				voterRepository.save(voter);
+			} else {
+				throw new ReadCensusException("[ERROR] [InsertDB] El votante " + voter.getNif() + " ya existe");
+			}
+	}
+
+	private boolean verify(Voter voter) throws ReadCensusException {
 		
 		if (voter == null)
 			throw new ReadCensusException("[ERROR] [InsertDB] Se ha recibido un votante sin datos, no se puede insertar en la BB.DD");

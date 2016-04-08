@@ -13,6 +13,7 @@ import es.uniovi.asw.model.Voter;
 
 @ActiveProfiles("test")
 public class TestApp {
+
 	public static void main(String[] args) {
 		SpringApplication app = new SpringApplication(TestApp.class);
 		app.run(args);

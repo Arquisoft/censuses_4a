@@ -1,13 +1,10 @@
-/**
- * 
- */
 package es.uniovi.asw.util;
 
 import org.apache.commons.lang.RandomStringUtils;
 
 /**
+ * PasswordGenerator
  * @author ivan
- *
  */
 public class PasswordGenerator {
 
